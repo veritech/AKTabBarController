@@ -43,7 +43,7 @@
     {
         [_contentView removeFromSuperview];
         _contentView = contentView;
-        _contentView.frame = CGRectZero;
+//        _contentView.frame = CGRectZero;
         [self addSubview:_contentView];
         [self sendSubviewToBack:_contentView];
     }
