@@ -29,6 +29,11 @@
 	return [(self.viewControllers)[0] tabImageName];
 }
 
+- (NSString *)activeTabImageName
+{
+  return [(self.viewControllers)[0] activeTabImageName];
+}
+
 - (NSString *)tabTitle
 {
 	return [(self.viewControllers)[0] tabTitle];
