@@ -26,4 +26,6 @@
 
 - (NSString *)tabTitle;
 
+- (NSString *)activeTabImageName;
+
 @end

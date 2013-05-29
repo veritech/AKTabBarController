@@ -26,6 +26,8 @@
 
 - (NSString *)tabImageName;
 
+- (NSString *)activeTabImageName;
+
 - (NSString *)tabTitle;
 
 - (AKTabBarController*)akTabBarController;
