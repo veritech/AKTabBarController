@@ -5,7 +5,7 @@ Pod::Spec.new do |s|
   s.summary  = 'Veritech Patched fork of AKTabBarController is an adaptive and customizable tab bar for iOS.'
   s.homepage = 'https://github.com/alikaragoz/AKTabBarController'
   s.author   = { 'Ali Karagoz' => 'mail@alikaragoz.net' }
-  s.source   = { :git => 'https://github.com/veritech/AKTabBarController.git', :head }
+  s.source   = { :git => 'https://github.com/veritech/AKTabBarController.git', :commit => 'e579089b2936cf23a52670ff337481fd261984e2' }
   s.platform = :ios
   s.source_files = 'AKTabBarController'
   s.resources = "AKTabBarController/AKTabBarController.bundle"
