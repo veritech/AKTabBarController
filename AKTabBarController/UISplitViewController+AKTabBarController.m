@@ -21,6 +21,7 @@
 // THE SOFTWARE.
 
 #import "UISplitViewController+AKTabBarController.h"
+#import "UIViewController+AKTabBarController.h"
 
 @class UIViewController;
 
