@@ -51,6 +51,9 @@
 // Tab background image
 @property (nonatomic, strong) NSString *backgroundImageName;
 
+//
+@property (nonatomic, assign) CGFloat tabWidth;
+
 - (void)tabSelected:(AKTab *)sender;
 
 @end

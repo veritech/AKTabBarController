@@ -67,15 +67,18 @@ typedef enum {
 
 - (id)initWithTabBarHeight:(NSUInteger)height
 {
-    self = [super init];
-    if (!self) return nil;
-    
-    tabBarHeight = height;
-    
-    // default settings
-    _iconShadowOffset = CGSizeMake(0, -1);
-    
-    return self;
+  self = [super init];
+  if (!self) return nil;
+  
+  tabBarHeight = height;
+  
+  // default settings
+  _iconShadowOffset = CGSizeMake(0, -1);
+  
+  _tabWidth = 0.0f
+  ;
+  
+  return self;
 }
 
 - (void)loadView

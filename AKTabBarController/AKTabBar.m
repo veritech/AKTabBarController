@@ -140,46 +140,59 @@ static int kTopEdgeWidth   = 1;
 }
 
 - (void)layoutSubviews {
-    [super layoutSubviews];
-
-    CGFloat screenWidth = self.bounds.size.width;
+  [super layoutSubviews];
+  
+  CGFloat screenWidth = self.bounds.size.width;
+  
+  CGFloat tabNumber = _tabs.count;
+  
+  // Calculating the tabs width.
+  CGFloat tabWidth;
+  
+  CGRect rect = self.bounds;
+  
+	//Override the tab width if possible
+	if ([self tabWidth] > 0) {
+    tabWidth = [self tabWidth];
     
-    CGFloat tabNumber = _tabs.count;
-    
+    //Calucate the starting x value, to center the buttons
+    rect.origin.x = (screenWidth - ([self tabWidth]*tabNumber))/2.0f;
+	}
+  else {
     // Calculating the tabs width.
-    CGFloat tabWidth = floorf(((screenWidth + 1) / tabNumber) - 1);
-    
-    // Because of the screen size, it is impossible to have tabs with the same
-    // width. Therefore we have to increase each tab width by one until we spend
-    // of the spaceLeft counter.
-    CGFloat spaceLeft = screenWidth - (tabWidth * tabNumber) - (tabNumber - 1);
-    
-    CGRect rect = self.bounds;
-    rect.size.width = tabWidth;
+    tabWidth = floorf(((screenWidth + 1) / tabNumber) - 1);
+  }
+	
+  // Because of the screen size, it is impossible to have tabs with the same
+  // width. Therefore we have to increase each tab width by one until we spend
+  // of the spaceLeft counter.
+  CGFloat spaceLeft = screenWidth - (tabWidth * tabNumber) - (tabNumber - 1);
 
-    CGFloat dTabWith;
+  rect.size.width = tabWidth;
+  
+  CGFloat dTabWith;
+	
+  for (AKTab *tab in _tabs) {
     
-    for (AKTab *tab in _tabs) {
+    // Here is the code that increment the width until we use all the space left
     
-        // Here is the code that increment the width until we use all the space left
-        
-        dTabWith = tabWidth;
-        
-        if (spaceLeft != 0) {
-            dTabWith = tabWidth + 1;
-            spaceLeft--;
-        }
-        
-        if ([_tabs indexOfObject:tab] == 0) {
-            tab.frame = CGRectMake(rect.origin.x, rect.origin.y, dTabWith, rect.size.height);
-        } else {
-            tab.frame = CGRectMake(rect.origin.x + kInterTabMargin, rect.origin.y, dTabWith, rect.size.height);
-        }
-        
-        [self addSubview:tab];
-        rect.origin.x = tab.frame.origin.x + tab.frame.size.width;
+    dTabWith = tabWidth;
+    
+    if (spaceLeft != 0) {
+      dTabWith = tabWidth + 1;
+      spaceLeft--;
     }
     
+    if ([_tabs indexOfObject:tab] == 0) {
+      tab.frame = CGRectMake(rect.origin.x, rect.origin.y, dTabWith, rect.size.height);
+    } else {
+      tab.frame = CGRectMake(rect.origin.x + kInterTabMargin, rect.origin.y, dTabWith, rect.size.height);
+    }
+    
+    [self addSubview:tab];
+    rect.origin.x = tab.frame.origin.x + tab.frame.size.width;
+  }
+  
 }
 
 @end
