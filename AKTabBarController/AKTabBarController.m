@@ -93,6 +93,8 @@ typedef enum {
     CGRect tabBarRect = CGRectMake(0.0, CGRectGetHeight(self.view.bounds) - tabBarHeight, CGRectGetWidth(self.view.frame), tabBarHeight);
     tabBar = [[AKTabBar alloc] initWithFrame:tabBarRect];
     tabBar.delegate = self;
+	
+    [tabBar setTabWidth:[self tabWidth]];
     
     tabBarView.tabBar = tabBar;
     tabBarView.contentView = _selectedViewController.view;
