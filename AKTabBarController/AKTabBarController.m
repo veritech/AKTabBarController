@@ -56,6 +56,9 @@ typedef enum {
     
     // Tab Bar height
     NSUInteger tabBarHeight;
+
+    // Tab Bar position
+    AKTabBarPosition tabBarPosition;
 }
 
 #pragma mark - Initialization
@@ -78,6 +81,16 @@ typedef enum {
     return self;
 }
 
+- (id)initWithTabBarHeight:(NSUInteger)height position:(AKTabBarPosition)position
+{
+    self = [self initWithTabBarHeight:height];
+    if (!self) return nil;
+
+    tabBarPosition = position;
+
+    return self;
+}
+
 - (void)loadView
 {
     [super loadView];
@@ -93,6 +106,7 @@ typedef enum {
     
     tabBarView.tabBar = tabBar;
     tabBarView.contentView = _selectedViewController.view;
+    tabBarView.tabBarPosition = tabBarPosition;
     [[self navigationItem] setTitle:[_selectedViewController title]];
     [self loadTabs];
 }
