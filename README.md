@@ -151,6 +151,9 @@ For further details see the Xcode example project.
 ###iPhone landscape
 ![iPhone landscape](https://github.com/alikaragoz/AKTabBarController/raw/master/Screenshots/iphone-landscape.png)
 
+###iPhone portrait w/ top tab bar
+![iPhone portrait with top bar bar](https://github.com/alikaragoz/AKTabBarController/raw/master/Screenshots/iphone-portrait-top-tab-bar.png)
+
 ###iPad portrait
 ![iPhone portrait](https://github.com/alikaragoz/AKTabBarController/raw/master/Screenshots/ipad-portrait.png)
 
