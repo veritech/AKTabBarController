@@ -43,6 +43,9 @@ Next, import the header file wherever you want to use the tab bar controller:
 // Create and initialize the height of the tab bar to 50px.
 _tabBarController = [[AKTabBarController alloc] initWithTabBarHeight:50];
 
+// Create and initialize with specific height and position atop the view controller
+_tabBarController = [[AKTabBarController alloc] initWithTabBarHeight:50 position:AKTabBarPositionTop];
+
 // Adding the view controllers to manage.
 [_tabBarController setViewControllers:@[[[FirstViewController alloc] init], [[SecondViewController alloc] init], [[ThirdViewController alloc] init], [[FourthViewController alloc] init]]]];  
 ```
