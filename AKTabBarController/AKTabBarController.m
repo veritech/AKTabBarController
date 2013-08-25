@@ -40,9 +40,6 @@ typedef enum {
     AKShowHideFromRight
 } AKShowHideFrom;
 
-// Current active view controller
-@property (nonatomic, strong) UIViewController *selectedViewController;
-
 - (void)loadTabs;
 - (void)showTabBar:(AKShowHideFrom)showHideFrom animated:(BOOL)animated;
 - (void)hideTabBar:(AKShowHideFrom)showHideFrom animated:(BOOL)animated;
@@ -128,8 +125,9 @@ typedef enum {
         [tab setInnerStrokeColor:[self tabInnerStrokeColor]];
         [tab setTextColor:[self textColor]];
         [tab setSelectedTextColor:[self selectedTextColor]];
+        [tab setTabTitleFont:[self textFont]];
         [tab setTabTitle:[vc tabTitle]];
-        
+
         [tab setTabBarHeight:tabBarHeight];
         
         if (_minimumHeightToDisplayTitle)
@@ -147,27 +145,27 @@ typedef enum {
     [tabBar setTabs:tabs];
     
     // Setting the first view controller as the active one
-    [tabBar setSelectedTab:[tabBar.tabs objectAtIndex:0]];
+    if ([tabs count] > 0) [tabBar setSelectedTab:(tabBar.tabs)[_selectedIndex]];
 }
 
 - (NSArray *) selectedIconCGColors
 {
-    return _selectedIconColors ? @[(id)[[_selectedIconColors objectAtIndex:0] CGColor], (id)[[_selectedIconColors objectAtIndex:1] CGColor]] : nil;
+    return _selectedIconColors ? @[(id)[_selectedIconColors[0] CGColor], (id)[_selectedIconColors[1] CGColor]] : nil;
 }
 
 - (NSArray *) iconCGColors
 {
-    return _iconColors ? @[(id)[[_iconColors objectAtIndex:0] CGColor], (id)[[_iconColors objectAtIndex:1] CGColor]] : nil;
+    return _iconColors ? @[(id)[_iconColors[0] CGColor], (id)[_iconColors[1] CGColor]] : nil;
 }
 
 - (NSArray *) tabCGColors
 {
-    return _tabColors ? @[(id)[[_tabColors objectAtIndex:0] CGColor], (id)[[_tabColors objectAtIndex:1] CGColor]] : nil;
+    return _tabColors ? @[(id)[_tabColors[0] CGColor], (id)[_tabColors[1] CGColor]] : nil;
 }
 
 - (NSArray *) selectedTabCGColors
 {
-    return _selectedTabColors ? @[(id)[[_selectedTabColors objectAtIndex:0] CGColor], (id)[[_selectedTabColors objectAtIndex:1] CGColor]] : nil;
+    return _selectedTabColors ? @[(id)[_selectedTabColors[0] CGColor], (id)[_selectedTabColors[1] CGColor]] : nil;
 }
 
 #pragma - UINavigationControllerDelegate
@@ -270,18 +268,30 @@ typedef enum {
 {
     _viewControllers = viewControllers;
     
+    // Add the view controllers as child view controllers, so they can find this controller
+    if([self respondsToSelector:@selector(addChildViewController:)]) {
+        for(UIViewController* vc in _viewControllers) {
+            [self addChildViewController:vc];
+        }
+    }
+
     // When setting the view controllers, the first vc is the selected one;
-    [self setSelectedViewController:[viewControllers objectAtIndex:0]];
+    if ([viewControllers count] > 0) [self setSelectedViewController:viewControllers[0]];
+    
+    // Load the tabs on the go
+    [self loadTabs];
 }
 
 - (void)setSelectedViewController:(UIViewController *)selectedViewController
 {
-    UIViewController *previousSelectedViewController = selectedViewController;
-    if (_selectedViewController != selectedViewController)
+    UIViewController *previousSelectedViewController = _selectedViewController;
+    NSInteger selectedIndex = [self.viewControllers indexOfObject:selectedViewController];
+    
+    if (_selectedViewController != selectedViewController && selectedIndex != NSNotFound)
     {
         
         _selectedViewController = selectedViewController;
-        selectedViewController = selectedViewController;
+        _selectedIndex = selectedIndex;
         
         if ((self.childViewControllers == nil || !self.childViewControllers.count) && visible)
         {
@@ -297,16 +307,30 @@ typedef enum {
 			[selectedViewController viewDidAppear:NO];
 		}
         
-        [tabBar setSelectedTab:[tabBar.tabs objectAtIndex:[self.viewControllers indexOfObject:selectedViewController]]];
+        [tabBar setSelectedTab:(tabBar.tabs)[selectedIndex]];
     }
 }
 
+- (void)setSelectedIndex:(NSInteger)selectedIndex
+{
+    [self setSelectedViewController:(self.viewControllers)[selectedIndex]];
+}
+
+#pragma mark - Hide / Show Methods
+
+- (void)showTabBarAnimated:(BOOL)animated {
+    [self showTabBar:AKShowHideFromRight animated:animated];
+}
+
+- (void)hideTabBarAnimated:(BOOL)animated {
+    [self hideTabBar:AKShowHideFromRight animated:animated];
+}
 
 #pragma mark - Required Protocol Method
 
 - (void)tabBar:(AKTabBar *)AKTabBarDelegate didSelectTabAtIndex:(NSInteger)index
 {
-    UIViewController *vc = [self.viewControllers objectAtIndex:index];
+    UIViewController *vc = (self.viewControllers)[index];
     
     if (self.selectedViewController == vc)
     {

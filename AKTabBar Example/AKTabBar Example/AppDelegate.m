@@ -36,7 +36,7 @@
                                                [[FourthViewController alloc] init],nil]];
     
     
-    // Below you will find an example of possible customization, just uncomment the lines
+    // Below you will find an example of the possible customizations, just uncomment the lines below
     
     /*
     // Tab background Image
@@ -72,9 +72,15 @@
     // Text Color
     [_tabBarController setTextColor:[UIColor colorWithRed:157.0/255.0 green:157.0/255.0 blue:157.0/255.0 alpha:1.0]];
     [_tabBarController setSelectedTextColor:[UIColor colorWithRed:228.0/255.0 green:228.0/255.0 blue:228.0/255.0 alpha:1.0]];
+
+    // Text font
+    [_tabBarController setTextFont:[UIFont fontWithName:@"Chalkduster" size:14]];
     
     // Hide / Show glossy on tab icons
     [_tabBarController setIconGlossyIsHidden:YES];
+     
+    // Enable / Disable pre-rendered image mode
+    [_tabBarController setTabIconPreRendered:YES];
     */
     
     [_window setRootViewController:_tabBarController];
