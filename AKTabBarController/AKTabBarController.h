@@ -95,6 +95,9 @@
 // Tab title font
 @property (nonatomic, strong) UIFont *textFont;
 
+// Max Width, if possible
+@property (nonatomic, assign) CGFloat tabWidth;
+
 // Initialization with a specific height.
 - (id)initWithTabBarHeight:(NSUInteger)height;
 

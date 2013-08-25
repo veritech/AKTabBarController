@@ -107,9 +107,20 @@ static const float kTopMargin = 2.0;
     
     if (isTabIconPresent)
     {
-        // Tab's image
-        image = [UIImage imageNamed:_tabImageWithName];
-        
+      	
+		/**
+		*	Patch
+		*	Use a alternative image when selected
+		*/
+        if (self.selected) {
+          // Tab's image
+          image = [UIImage imageNamed:_activeImageWithName];
+        }
+        else {
+          // Tab's image
+          image = [UIImage imageNamed:_tabImageWithName];
+        }
+      
         // Getting the ratio for eventual scaling
         ratio = image.size.width / image.size.height;
         
@@ -151,14 +162,20 @@ static const float kTopMargin = 2.0;
         imageContainer.size.height = CGRectGetHeight(content) - ((displayTabTitle) ? (kMargin + CGRectGetHeight(labelRect)) : 0);
         
         // When the image is not square we have to make sure it will not go beyond the bonds of the container
-        if (CGRectGetWidth(imageRect) >= CGRectGetHeight(imageRect)) {
-            imageRect.size.width = MIN(CGRectGetHeight(imageRect), MIN(CGRectGetWidth(imageContainer), CGRectGetHeight(imageContainer)));
-            imageRect.size.height = floorf(CGRectGetWidth(imageRect) / ratio);
-        } else {
-            imageRect.size.height = MIN(CGRectGetHeight(imageRect), MIN(CGRectGetWidth(imageContainer), CGRectGetHeight(imageContainer)));
-            imageRect.size.width = floorf(CGRectGetHeight(imageRect) * ratio);
-        }
-        
+		/**
+		*	Patch
+		*	Stop scaling the image
+		*	TODO: Add flag to change the behaviour on the fly
+		*/
+		/*
+       if (CGRectGetWidth(imageRect) >= CGRectGetHeight(imageRect)) {
+           imageRect.size.width = MIN(CGRectGetHeight(imageRect), MIN(CGRectGetWidth(imageContainer), CGRectGetHeight(imageContainer)));
+           imageRect.size.height = floorf(CGRectGetWidth(imageRect) / ratio);
+       } else {
+           imageRect.size.height = MIN(CGRectGetHeight(imageRect), MIN(CGRectGetWidth(imageContainer), CGRectGetHeight(imageContainer)));
+           imageRect.size.width = floorf(CGRectGetHeight(imageRect) * ratio);
+       }
+      	*/
         imageRect.origin.x = floorf(CGRectGetMidX(content) - CGRectGetWidth(imageRect) / 2);
         imageRect.origin.y = floorf(CGRectGetMidY(imageContainer) - CGRectGetHeight(imageRect) / 2);
     }
@@ -239,9 +256,20 @@ static const float kTopMargin = 2.0;
         // We fill the background with a noise pattern
         CGContextSaveGState(ctx);
         {
-            [[UIColor colorWithPatternImage:[UIImage imageNamed:_selectedBackgroundImageName ? _selectedBackgroundImageName : @"AKTabBarController.bundle/noise-pattern"]] set];
-            CGContextFillRect(ctx, rect);
-            
+          
+            /*
+             *  PATCH
+             *  Support stretchable background images
+             */
+            if (_selectedBackgroundImageName) {
+              [[[UIImage imageNamed:_selectedBackgroundImageName] stretchableImageWithLeftCapWidth:6.0f
+                                                                                      topCapHeight:48.0f] drawInRect:rect];
+            }
+            else {
+              [[UIColor colorWithPatternImage:[UIImage imageNamed:@"AKTabBarController.bundle/noise-pattern"]] set];
+              CGContextFillRect(ctx, rect);
+            }
+          
             // We set the parameters of th gradient multiply blend
             size_t num_locations = 2;
             CGFloat locations[2] = {1.0, 0.0};

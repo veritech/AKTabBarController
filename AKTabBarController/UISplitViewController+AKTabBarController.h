@@ -1,4 +1,4 @@
-// UINavigationController+AKTabBarController.m
+// UISplitViewController+AKTabBarController.h
 //
 // Copyright (c) 2012 Ali Karagoz (http://alikaragoz.net)
 //
@@ -20,23 +20,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "UINavigationController+AKTabBarController.h"
+@interface UISplitViewController (AKTabBarController)
 
-@implementation UINavigationController (AKTabBarController)
+- (NSString *)tabImageName;
 
-- (NSString *)tabImageName
-{
-	return [(self.viewControllers)[0] tabImageName];
-}
+- (NSString *)activeTabImageName;
 
-- (NSString *)activeTabImageName
-{
-  return [(self.viewControllers)[0] activeTabImageName];
-}
-
-- (NSString *)tabTitle
-{
-	return [(self.viewControllers)[0] tabTitle];
-}
+- (NSString *)tabTitle;
 
 @end

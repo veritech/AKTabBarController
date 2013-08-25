@@ -67,15 +67,18 @@ typedef enum {
 
 - (id)initWithTabBarHeight:(NSUInteger)height
 {
-    self = [super init];
-    if (!self) return nil;
-    
-    tabBarHeight = height;
-    
-    // default settings
-    _iconShadowOffset = CGSizeMake(0, -1);
-    
-    return self;
+  self = [super init];
+  if (!self) return nil;
+  
+  tabBarHeight = height;
+  
+  // default settings
+  _iconShadowOffset = CGSizeMake(0, -1);
+  
+  _tabWidth = 0.0f
+  ;
+  
+  return self;
 }
 
 - (void)loadView
@@ -90,6 +93,8 @@ typedef enum {
     CGRect tabBarRect = CGRectMake(0.0, CGRectGetHeight(self.view.bounds) - tabBarHeight, CGRectGetWidth(self.view.frame), tabBarHeight);
     tabBar = [[AKTabBar alloc] initWithFrame:tabBarRect];
     tabBar.delegate = self;
+	
+    [tabBar setTabWidth:[self tabWidth]];
     
     tabBarView.tabBar = tabBar;
     tabBarView.contentView = _selectedViewController.view;
@@ -109,6 +114,7 @@ typedef enum {
         
         AKTab *tab = [[AKTab alloc] init];
         [tab setTabImageWithName:[vc tabImageName]];
+        [tab setActiveImageWithName:[vc activeTabImageName]];
         [tab setBackgroundImageName:[self backgroundImageName]];
         [tab setSelectedBackgroundImageName:[self selectedBackgroundImageName]];
         [tab setTabIconColors:[self iconCGColors]];
