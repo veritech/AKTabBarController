@@ -22,9 +22,17 @@
 
 #import "AKTabBar.h"
 
+// The various positions for the AKTabBar within the AKTabBarView.
+// The default position is AKTabBarPositionBottom.
+typedef NS_ENUM(NSInteger, AKTabBarPosition) {
+    AKTabBarPositionBottom = 0,
+    AKTabBarPositionTop,
+};
+
 @interface AKTabBarView : UIView
 
 @property (nonatomic, strong) AKTabBar *tabBar;
 @property (nonatomic, strong) UIView *contentView;
 @property (nonatomic, assign) BOOL isTabBarHidding;
+@property (nonatomic, assign) AKTabBarPosition tabBarPosition;
 @end

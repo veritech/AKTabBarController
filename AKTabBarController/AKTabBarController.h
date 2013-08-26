@@ -107,6 +107,9 @@
 // Initialization with a specific height.
 - (id)initWithTabBarHeight:(NSUInteger)height;
 
+// Initialization with a specific height and tab bar position.
+- (id)initWithTabBarHeight:(NSUInteger)height position:(AKTabBarPosition)position;
+
 // Hide / Show Methods
 - (void)showTabBarAnimated:(BOOL)animated;
 - (void)hideTabBarAnimated:(BOOL)animated;

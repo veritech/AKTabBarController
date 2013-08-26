@@ -22,6 +22,8 @@
 
     // If the device is an iPad, we make it taller.
     _tabBarController = [[AKTabBarController alloc] initWithTabBarHeight:(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 70 : 50];
+    // Comment out the line above and uncomment the line below to show the tab bar at the top of the UI.
+    // _tabBarController = [[AKTabBarController alloc] initWithTabBarHeight:(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 70 : 50 position:AKTabBarPositionTop];
     [_tabBarController setMinimumHeightToDisplayTitle:40.0];
     
     // If needed, disable the resizing when switching display orientations.
