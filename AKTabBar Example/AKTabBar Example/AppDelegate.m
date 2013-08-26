@@ -38,11 +38,11 @@
     
     // Below you will find an example of the possible customizations, just uncomment the lines below
     
-    /*
     // Tab background Image
     [_tabBarController setBackgroundImageName:@"noise-dark-gray.png"];
     [_tabBarController setSelectedBackgroundImageName:@"noise-dark-blue.png"];
 
+    /*
     // Tabs top embos Color
     [_tabBarController setTabEdgeColor:[UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:0.8]];
 
@@ -78,10 +78,9 @@
     
     // Hide / Show glossy on tab icons
     [_tabBarController setIconGlossyIsHidden:YES];
-     
+*/
     // Enable / Disable pre-rendered image mode
     [_tabBarController setTabIconPreRendered:YES];
-    */
     
     [_window setRootViewController:_tabBarController];
     [_window makeKeyAndVisible];
