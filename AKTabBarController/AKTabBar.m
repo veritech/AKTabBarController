@@ -30,6 +30,7 @@ static int kTopEdgeWidth   = 1;
 #pragma mark - Initialization
 
 - (id)initWithFrame:(CGRect)frame
+        fixedHeight:(BOOL)hasFixedHeight
 {
     self = [super initWithFrame:frame];
     if (self) {
@@ -37,9 +38,14 @@ static int kTopEdgeWidth   = 1;
         self.userInteractionEnabled = YES;
         self.contentMode = UIViewContentModeRedraw;
         self.opaque = YES;
-        self.autoresizingMask = (UIViewAutoresizingFlexibleWidth |
-                                 UIViewAutoresizingFlexibleHeight |
-                                 UIViewAutoresizingFlexibleTopMargin);
+        if(hasFixedHeight) {
+            self.autoresizingMask = (UIViewAutoresizingFlexibleWidth |
+                                     UIViewAutoresizingFlexibleTopMargin);
+        } else {
+            self.autoresizingMask = (UIViewAutoresizingFlexibleWidth |
+                                     UIViewAutoresizingFlexibleHeight |
+                                     UIViewAutoresizingFlexibleTopMargin);
+        }
     }
     return self;
 }

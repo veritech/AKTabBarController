@@ -24,6 +24,11 @@
     _tabBarController = [[AKTabBarController alloc] initWithTabBarHeight:(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 70 : 50];
     [_tabBarController setMinimumHeightToDisplayTitle:40.0];
     
+    // If needed, disable the resizing when switching display orientations.
+    /*
+    [_tabBarController setTabBarHasFixedHeight:YES];
+     */
+
     FirstViewController *tableViewController = [[FirstViewController alloc] initWithStyle:UITableViewStylePlain];
     
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:tableViewController];

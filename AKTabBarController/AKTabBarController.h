@@ -101,6 +101,9 @@
 // Max Width, if possible
 @property (nonatomic, assign) CGFloat tabWidth;
 
+// Whether the resizing is allowed (for example when the orientation changes)
+@property (nonatomic) BOOL tabBarHasFixedHeight;
+
 // Initialization with a specific height.
 - (id)initWithTabBarHeight:(NSUInteger)height;
 

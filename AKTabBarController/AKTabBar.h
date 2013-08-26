@@ -35,6 +35,9 @@
 
 @interface AKTabBar : UIView
 
+- (id)initWithFrame:(CGRect)frame
+        fixedHeight:(BOOL)hasFixedHeight;
+
 @property (nonatomic, strong) NSArray *tabs;
 @property (nonatomic, strong) AKTab *selectedTab;
 @property (nonatomic, assign) id <AKTabBarDelegate> delegate;
