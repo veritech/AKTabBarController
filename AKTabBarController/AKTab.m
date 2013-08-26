@@ -105,22 +105,25 @@ static const float kTopMargin = 2.0;
     CGRect imageRect = CGRectZero;
     CGFloat ratio = 0;
     
-    if (isTabIconPresent)
-    {
-      	
+    if (isTabIconPresent) {
 		/**
-		*	Patch
-		*	Use a alternative image when selected
-		*/
+         *	Patch
+         *	Use a alternative image when selected
+         */
         if (self.selected) {
-          // Tab's image
-          image = [UIImage imageNamed:_activeImageWithName];
+            // Tab's image
+            image = [UIImage imageNamed:_activeImageWithName];
+            
+            // Fallback to the regular image
+            if(!image) {
+                image = [UIImage imageNamed:_tabImageWithName];
+            }
         }
         else {
-          // Tab's image
-          image = [UIImage imageNamed:_tabImageWithName];
+            // Tab's image
+            image = [UIImage imageNamed:_tabImageWithName];
         }
-      
+        
         // Getting the ratio for eventual scaling
         ratio = image.size.width / image.size.height;
         
@@ -132,7 +135,9 @@ static const float kTopMargin = 2.0;
     UILabel *tabTitleLabel = [[UILabel alloc] init];
     tabTitleLabel.text = _tabTitle;
     tabTitleLabel.font = self.tabTitleFont ?: [UIFont fontWithName:@"Helvetica-Bold" size:11.0];
-    CGSize labelSize = [tabTitleLabel.text sizeWithFont:tabTitleLabel.font forWidth:CGRectGetWidth(rect) lineBreakMode:NSLineBreakByTruncatingMiddle ];
+    CGSize labelSize = [tabTitleLabel.text sizeWithFont:tabTitleLabel.font
+                                               forWidth:CGRectGetWidth(rect)
+                                          lineBreakMode:NSLineBreakByTruncatingMiddle ];
     
     CGRect labelRect = CGRectZero;
     
@@ -163,19 +168,19 @@ static const float kTopMargin = 2.0;
         
         // When the image is not square we have to make sure it will not go beyond the bonds of the container
 		/**
-		*	Patch
-		*	Stop scaling the image
-		*	TODO: Add flag to change the behaviour on the fly
-		*/
+         *	Patch
+         *	Stop scaling the image
+         *	TODO: Add flag to change the behaviour on the fly
+         */
 		/*
-       if (CGRectGetWidth(imageRect) >= CGRectGetHeight(imageRect)) {
-           imageRect.size.width = MIN(CGRectGetHeight(imageRect), MIN(CGRectGetWidth(imageContainer), CGRectGetHeight(imageContainer)));
-           imageRect.size.height = floorf(CGRectGetWidth(imageRect) / ratio);
-       } else {
-           imageRect.size.height = MIN(CGRectGetHeight(imageRect), MIN(CGRectGetWidth(imageContainer), CGRectGetHeight(imageContainer)));
-           imageRect.size.width = floorf(CGRectGetHeight(imageRect) * ratio);
-       }
-      	*/
+         if (CGRectGetWidth(imageRect) >= CGRectGetHeight(imageRect)) {
+             imageRect.size.width = MIN(CGRectGetHeight(imageRect), MIN(CGRectGetWidth(imageContainer), CGRectGetHeight(imageContainer)));
+             imageRect.size.height = floorf(CGRectGetWidth(imageRect) / ratio);
+         } else {
+             imageRect.size.height = MIN(CGRectGetHeight(imageRect), MIN(CGRectGetWidth(imageContainer), CGRectGetHeight(imageContainer)));
+             imageRect.size.width = floorf(CGRectGetHeight(imageRect) * ratio);
+         }
+         */
         imageRect.origin.x = floorf(CGRectGetMidX(content) - CGRectGetWidth(imageRect) / 2);
         imageRect.origin.y = floorf(CGRectGetMidY(imageContainer) - CGRectGetHeight(imageRect) / 2);
     }
@@ -183,7 +188,6 @@ static const float kTopMargin = 2.0;
     CGFloat offsetY = rect.size.height - ((displayTabTitle) ? (kMargin + CGRectGetHeight(labelRect)) : 0) + kTopMargin;
     
     if (!self.selected) {
-        
         // We draw the vertical lines for the border
         CGContextSaveGState(ctx);
         {
@@ -208,7 +212,7 @@ static const float kTopMargin = 2.0;
             } else {
                 // We draw the inner shadow which is just the image mask with an offset of 1 pixel
                 CGContextSaveGState(ctx);
-                {                
+                {
                     CGContextTranslateCTM(ctx, _tabIconShadowOffset.width, offsetY + _tabIconShadowOffset.height);
                     CGContextScaleCTM(ctx, 1.0, -1.0);
                     CGContextClipToMask(ctx, imageRect, image.CGImage);
@@ -246,47 +250,50 @@ static const float kTopMargin = 2.0;
             {
                 UIColor *textColor = [UIColor colorWithRed:0.461 green:0.461 blue:0.461 alpha:1.0];
                 CGContextSetFillColorWithColor(ctx, _textColor ? _textColor.CGColor : textColor.CGColor);
-                [tabTitleLabel.text drawInRect:labelRect withFont:tabTitleLabel.font lineBreakMode:NSLineBreakByTruncatingMiddle  alignment:UITextAlignmentCenter];
+                [tabTitleLabel.text drawInRect:labelRect withFont:tabTitleLabel.font
+                                 lineBreakMode:NSLineBreakByTruncatingMiddle
+                                     alignment:NSTextAlignmentCenter];
             }
             CGContextRestoreGState(ctx);
         }
-        
     } else if (self.selected) {
         
         // We fill the background with a noise pattern
         CGContextSaveGState(ctx);
         {
-          
-            /*
-             *  PATCH
-             *  Support stretchable background images
-             */
             if (_selectedBackgroundImageName) {
-              [[[UIImage imageNamed:_selectedBackgroundImageName] stretchableImageWithLeftCapWidth:6.0f
-                                                                                      topCapHeight:48.0f] drawInRect:rect];
+                UIImage *backgroundImage = [UIImage imageNamed:_selectedBackgroundImageName];
+                if(!UIEdgeInsetsEqualToEdgeInsets(self.backgroundImageCapInsets, UIEdgeInsetsZero)) {
+                    [[backgroundImage resizableImageWithCapInsets:self.backgroundImageCapInsets] drawInRect:rect];
+                } else {
+                    [[UIColor colorWithPatternImage:backgroundImage] set];
+                    CGContextFillRect(ctx, rect);
+                }
             }
             else {
-              [[UIColor colorWithPatternImage:[UIImage imageNamed:@"AKTabBarController.bundle/noise-pattern"]] set];
-              CGContextFillRect(ctx, rect);
+                [[UIColor colorWithPatternImage:[UIImage imageNamed:@"AKTabBarController.bundle/noise-pattern"]] set];
+                CGContextFillRect(ctx, rect);
             }
-          
-            // We set the parameters of th gradient multiply blend
+            
+            // We set the parameters of the gradient multiply blend
             size_t num_locations = 2;
             CGFloat locations[2] = {1.0, 0.0};
             CGFloat components[8] = {0.6, 0.6, 0.6, 1.0,  // Start color
                 0.2, 0.2, 0.2, 0.4}; // End color
-            
+
+            UIColor *topEdgeColor = _topEdgeColor;
+            if (!topEdgeColor) {
+                topEdgeColor = _edgeColor ?: [UIColor colorWithRed:.1f green:.1f blue:.1f alpha:.8f];
+            }
+            int topMargin = topEdgeColor == [UIColor clearColor] ? 0 : kTopMargin;
+
             CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
             CGGradientRef gradient = _tabSelectedColors ? CGGradientCreateWithColors(colorSpace, (__bridge CFArrayRef)_tabSelectedColors, locations) : CGGradientCreateWithColorComponents (colorSpace, components, locations, num_locations);
             CGContextSetBlendMode(ctx, kCGBlendModeMultiply);
-            CGContextDrawLinearGradient(ctx, gradient, CGPointMake(0, kTopMargin), CGPointMake(0, rect.size.height - kTopMargin), kCGGradientDrawsAfterEndLocation);
+            CGContextDrawLinearGradient(ctx, gradient, CGPointMake(0, topMargin), CGPointMake(0, rect.size.height - topMargin), kCGGradientDrawsAfterEndLocation);
             
             // top dark emboss
             CGContextSetBlendMode(ctx, kCGBlendModeNormal);
-            UIColor *topEdgeColor = _topEdgeColor;
-            if (!topEdgeColor) {
-                _edgeColor ? _edgeColor : [UIColor colorWithRed:.1f green:.1f blue:.1f alpha:.8f];
-            }
             CGContextSetFillColorWithColor(ctx, topEdgeColor.CGColor);
             CGContextFillRect(ctx, CGRectMake(0, 0, rect.size.width, 1));
             
@@ -401,12 +408,13 @@ static const float kTopMargin = 2.0;
             {
                 UIColor *textColor = [UIColor colorWithRed:0.961 green:0.961 blue:0.961 alpha:1.0];
                 CGContextSetFillColorWithColor(ctx, _selectedTextColor ? _selectedTextColor.CGColor : textColor.CGColor);
-                [tabTitleLabel.text drawInRect:labelRect withFont:tabTitleLabel.font lineBreakMode:NSLineBreakByTruncatingMiddle  alignment:UITextAlignmentCenter];
+                [tabTitleLabel.text drawInRect:labelRect withFont:tabTitleLabel.font
+                                 lineBreakMode:NSLineBreakByTruncatingMiddle
+                                     alignment:NSTextAlignmentCenter];
             }
             CGContextRestoreGState(ctx);
         }
-        
     }
-    
+
 }
 @end

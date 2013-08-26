@@ -36,6 +36,9 @@
 // Tab selected background image
 @property (nonatomic, strong) NSString *selectedBackgroundImageName;
 
+// Tab background image insets
+@property (nonatomic) UIEdgeInsets backgroundImageCapInsets;
+
 // Tab text color
 @property (nonatomic, strong) UIColor *textColor;
 

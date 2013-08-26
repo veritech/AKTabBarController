@@ -8,10 +8,6 @@
 
 #import "ThirdViewController.h"
 
-@interface ThirdViewController ()
-
-@end
-
 @implementation ThirdViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil

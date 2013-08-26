@@ -8,10 +8,6 @@
 
 #import "SecondViewController.h"
 
-@interface SecondViewController ()
-
-@end
-
 @implementation SecondViewController
 
 - (id)init

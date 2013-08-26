@@ -35,17 +35,19 @@
                                                [[ThirdViewController alloc] init],
                                                [[FourthViewController alloc] init],nil]];
     
-    
     // Below you will find an example of the possible customizations, just uncomment the lines below
     
     // Tab background Image
     [_tabBarController setBackgroundImageName:@"noise-dark-gray.png"];
     [_tabBarController setSelectedBackgroundImageName:@"noise-dark-blue.png"];
-
+    
     /*
+    // If needed, set cap insets for the background image
+    [_tabBarController setBackgroundImageCapInsets:UIEdgeInsetsMake(4, 4, 4, 4)];
+
     // Tabs top embos Color
     [_tabBarController setTabEdgeColor:[UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:0.8]];
-
+         
     // Tabs Colors settings
     [_tabBarController setTabColors:@[[UIColor colorWithRed:0.1 green:0.1 blue:0.1 alpha:0.0],
                                           [UIColor colorWithRed:0.6 green:0.6 blue:0.6 alpha:1.0]]]; // MAX 2 Colors
@@ -78,10 +80,19 @@
     
     // Hide / Show glossy on tab icons
     [_tabBarController setIconGlossyIsHidden:YES];
-*/
+
     // Enable / Disable pre-rendered image mode
-    [_tabBarController setTabIconPreRendered:YES];
-    
+    [_tabBarController setTabIconPreRendered:NO];
+    */
+
+    // Uncomment the following lines to completely remove the border from all elements.
+    /*
+    [_tabBarController setTabEdgeColor:[UIColor clearColor]];
+    [_tabBarController setTabInnerStrokeColor:[UIColor clearColor]];
+    [_tabBarController setTabStrokeColor:[UIColor clearColor]];
+    [_tabBarController setTopEdgeColor:[UIColor clearColor]];
+     */
+
     [_window setRootViewController:_tabBarController];
     [_window makeKeyAndVisible];
     return YES;

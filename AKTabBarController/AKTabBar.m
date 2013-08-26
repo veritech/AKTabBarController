@@ -63,7 +63,8 @@ static int kTopEdgeWidth   = 1;
     [self setNeedsLayout];
 }
 
-- (void)setSelectedTab:(AKTab *)selectedTab {
+- (void)setSelectedTab:(AKTab *)selectedTab
+{
     if (selectedTab != _selectedTab) {
         [_selectedTab setSelected:NO];
         _selectedTab = selectedTab;
@@ -85,9 +86,9 @@ static int kTopEdgeWidth   = 1;
 {
     // Drawing the tab bar background
 	CGContextRef ctx = UIGraphicsGetCurrentContext();
-	    
+    
     // fill ingthe background with a noise pattern
-    [[UIColor colorWithPatternImage:[UIImage imageNamed:_backgroundImageName ? _backgroundImageName : @"AKTabBarController.bundle/noise-pattern"]] set];
+    [[UIColor colorWithPatternImage:[UIImage imageNamed:_backgroundImageName ?: @"AKTabBarController.bundle/noise-pattern"]] set];
     
     CGContextFillRect(ctx, rect);
     
@@ -98,7 +99,7 @@ static int kTopEdgeWidth   = 1;
         size_t num_locations = 2;
         CGFloat locations[2] = {0.0, 1.0};
         CGFloat components[8] = {0.9, 0.9, 0.9, 1.0,    // Start color
-                                 0.2, 0.2, 0.2, 0.8};    // End color
+            0.2, 0.2, 0.2, 0.8};    // End color
         
         CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
         CGGradientRef gradient = _tabColors ? CGGradientCreateWithColors(colorSpace, (__bridge CFArrayRef)_tabColors, locations) : CGGradientCreateWithColorComponents (colorSpace, components, locations, num_locations);
@@ -111,27 +112,29 @@ static int kTopEdgeWidth   = 1;
     CGContextRestoreGState(ctx);
     
     // Drawing the top dark emboss
+    UIColor *topEdgeColor = _topEdgeColor;
+    if (!topEdgeColor) {
+        topEdgeColor = _edgeColor ?: [UIColor colorWithRed:.1f green:.1f blue:.1f alpha:.8f];
+    }
+
     CGContextSaveGState(ctx);
     {
-        UIColor *topEdgeColor = _topEdgeColor;
-        if (!topEdgeColor) {
-            _edgeColor ? _edgeColor : [UIColor colorWithRed:.1f green:.1f blue:.1f alpha:.8f];
-        }
         CGContextSetFillColorWithColor(ctx, topEdgeColor.CGColor);
         CGContextFillRect(ctx, CGRectMake(0, 0, rect.size.width, kTopEdgeWidth));
     }
     CGContextRestoreGState(ctx);
     
     // Drawing the top bright emboss
-    CGContextSaveGState(ctx);
-    {
-        CGContextSetBlendMode(ctx, kCGBlendModeOverlay);
-        CGContextSetRGBFillColor(ctx, 0.9, 0.9, 0.9, 0.7);
-        CGContextFillRect(ctx, CGRectMake(0, 1, rect.size.width, 1));
-
+    if(topEdgeColor != [UIColor clearColor]) {
+        CGContextSaveGState(ctx);
+        {
+            CGContextSetBlendMode(ctx, kCGBlendModeOverlay);
+            CGContextSetRGBFillColor(ctx, 0.9, 0.9, 0.9, 0.7);
+            CGContextFillRect(ctx, CGRectMake(0, 1, rect.size.width, 1));
+        }
+        CGContextRestoreGState(ctx);
     }
-    CGContextRestoreGState(ctx);
-        
+    
     // Drawing the edge border lines
     CGContextSetFillColorWithColor(ctx, _edgeColor ? [_edgeColor CGColor] : [[UIColor colorWithRed:.1f green:.1f blue:.1f alpha:.8f] CGColor]);
     for (AKTab *tab in _tabs)
@@ -139,60 +142,60 @@ static int kTopEdgeWidth   = 1;
     
 }
 
-- (void)layoutSubviews {
-  [super layoutSubviews];
-  
-  CGFloat screenWidth = self.bounds.size.width;
-  
-  CGFloat tabNumber = _tabs.count;
-  
-  // Calculating the tabs width.
-  CGFloat tabWidth;
-  
-  CGRect rect = self.bounds;
-  
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+    
+    CGFloat screenWidth = self.bounds.size.width;
+    
+    CGFloat tabNumber = _tabs.count;
+    
+    // Calculating the tabs width.
+    CGFloat tabWidth;
+    
+    CGRect rect = self.bounds;
+    
 	//Override the tab width if possible
 	if ([self tabWidth] > 0) {
-    tabWidth = [self tabWidth];
-    
-    //Calucate the starting x value, to center the buttons
-    rect.origin.x = (screenWidth - ([self tabWidth]*tabNumber))/2.0f;
+        tabWidth = [self tabWidth];
+        
+        //Calucate the starting x value, to center the buttons
+        rect.origin.x = (screenWidth - ([self tabWidth]*tabNumber))/2.0f;
 	}
-  else {
-    // Calculating the tabs width.
-    tabWidth = floorf(((screenWidth + 1) / tabNumber) - 1);
-  }
-	
-  // Because of the screen size, it is impossible to have tabs with the same
-  // width. Therefore we have to increase each tab width by one until we spend
-  // of the spaceLeft counter.
-  CGFloat spaceLeft = screenWidth - (tabWidth * tabNumber) - (tabNumber - 1);
-
-  rect.size.width = tabWidth;
-  
-  CGFloat dTabWith;
-	
-  for (AKTab *tab in _tabs) {
-    
-    // Here is the code that increment the width until we use all the space left
-    
-    dTabWith = tabWidth;
-    
-    if (spaceLeft != 0) {
-      dTabWith = tabWidth + 1;
-      spaceLeft--;
+    else {
+        // Calculating the tabs width.
+        tabWidth = floorf(((screenWidth + 1) / tabNumber) - 1);
     }
     
-    if ([_tabs indexOfObject:tab] == 0) {
-      tab.frame = CGRectMake(rect.origin.x, rect.origin.y, dTabWith, rect.size.height);
-    } else {
-      tab.frame = CGRectMake(rect.origin.x + kInterTabMargin, rect.origin.y, dTabWith, rect.size.height);
-    }
+    // Because of the screen size, it is impossible to have tabs with the same
+    // width. Therefore we have to increase each tab width by one until we spend
+    // of the spaceLeft counter.
+    CGFloat spaceLeft = screenWidth - (tabWidth * tabNumber) - (tabNumber - 1);
     
-    [self addSubview:tab];
-    rect.origin.x = tab.frame.origin.x + tab.frame.size.width;
-  }
-  
+    rect.size.width = tabWidth;
+    
+    CGFloat dTabWith;
+	
+    for (AKTab *tab in _tabs) {
+        
+        // Here is the code that increment the width until we use all the space left
+        
+        dTabWith = tabWidth;
+        
+        if (spaceLeft != 0) {
+            dTabWith = tabWidth + 1;
+            spaceLeft--;
+        }
+        
+        if ([_tabs indexOfObject:tab] == 0) {
+            tab.frame = CGRectMake(rect.origin.x, rect.origin.y, dTabWith, rect.size.height);
+        } else {
+            tab.frame = CGRectMake(rect.origin.x + kInterTabMargin, rect.origin.y, dTabWith, rect.size.height);
+        }
+        
+        [self addSubview:tab];
+        rect.origin.x = tab.frame.origin.x + tab.frame.size.width;
+    }
 }
 
 @end

@@ -8,10 +8,6 @@
 
 #import "FourthViewController.h"
 
-@interface FourthViewController ()
-
-@end
-
 @implementation FourthViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil

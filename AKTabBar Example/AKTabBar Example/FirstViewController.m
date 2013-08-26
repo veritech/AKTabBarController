@@ -6,11 +6,9 @@
 //  Copyright (c) 2012 Ali Karagoz. All rights reserved.
 //
 
+#import "UIViewController+AKTabBarController.h"
+
 #import "FirstViewController.h"
-
-@interface FirstViewController ()
-
-@end
 
 @implementation FirstViewController
 
@@ -23,27 +21,14 @@
     return self;
 }
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-}
-
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-}
-
 - (NSString *)tabImageName
 {
 	return @"image-1";
+}
+
+- (NSString *)activeTabImageName
+{
+	return @"image-1-active";
 }
 
 - (NSString *)tabTitle
