@@ -52,7 +52,7 @@
 @property (nonatomic, strong) NSArray *tabColors;
 
 // Tab background image
-@property (nonatomic, strong) NSString *backgroundImageName;
+//@property (nonatomic, strong) NSString *backgroundImageName;
 
 //
 @property (nonatomic, assign) CGFloat tabWidth;

@@ -20,12 +20,18 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+@class AKTabBarController;
+
 @interface UINavigationController (AKTabBarController)
 
 - (NSString *)tabImageName;
 
+- (NSString *)activeTabImageName;
+
+- (NSString *)tabBackgroundImageName;
+
 - (NSString *)tabTitle;
 
-- (NSString *)activeTabImageName;
+- (AKTabBarController*)akTabBarController;
 
 @end

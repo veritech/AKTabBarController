@@ -24,4 +24,8 @@
 	return @"image-3";
 }
 
+- (NSString *)tabBackgroundImageName {
+    return @"noise-dark-green.png";
+}
+
 @end

@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		34E334B117CBA75C00E3CEBA /* image-1-active.png in Resources */ = {isa = PBXBuildFile; fileRef = 34E334AF17CBA75C00E3CEBA /* image-1-active.png */; };
 		34E334B217CBA75C00E3CEBA /* image-1-active@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 34E334B017CBA75C00E3CEBA /* image-1-active@2x.png */; };
+		34E334B517CBC1DD00E3CEBA /* noise-dark-green.png in Resources */ = {isa = PBXBuildFile; fileRef = 34E334B317CBC1DD00E3CEBA /* noise-dark-green.png */; };
+		34E334B617CBC1DD00E3CEBA /* noise-dark-green@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 34E334B417CBC1DD00E3CEBA /* noise-dark-green@2x.png */; };
 		7B2637DA155333E100013EE7 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B2637D9155333E100013EE7 /* UIKit.framework */; };
 		7B2637DC155333E100013EE7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B2637DB155333E100013EE7 /* Foundation.framework */; };
 		7B2637DE155333E100013EE7 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B2637DD155333E100013EE7 /* CoreGraphics.framework */; };
@@ -46,6 +48,8 @@
 /* Begin PBXFileReference section */
 		34E334AF17CBA75C00E3CEBA /* image-1-active.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "image-1-active.png"; sourceTree = "<group>"; };
 		34E334B017CBA75C00E3CEBA /* image-1-active@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "image-1-active@2x.png"; sourceTree = "<group>"; };
+		34E334B317CBC1DD00E3CEBA /* noise-dark-green.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "noise-dark-green.png"; sourceTree = "<group>"; };
+		34E334B417CBC1DD00E3CEBA /* noise-dark-green@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "noise-dark-green@2x.png"; sourceTree = "<group>"; };
 		7B2637D5155333E100013EE7 /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B2637D9155333E100013EE7 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		7B2637DB155333E100013EE7 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -195,6 +199,8 @@
 				7BF3638A16A8C37B0023C403 /* noise-dark-blue@2x.png */,
 				7BF3638B16A8C37B0023C403 /* noise-dark-gray.png */,
 				7BF3638C16A8C37B0023C403 /* noise-dark-gray@2x.png */,
+				34E334B317CBC1DD00E3CEBA /* noise-dark-green.png */,
+				34E334B417CBC1DD00E3CEBA /* noise-dark-green@2x.png */,
 				7B2638011553352E00013EE7 /* image-1.png */,
 				7B2638021553352E00013EE7 /* image-1@2x.png */,
 				34E334AF17CBA75C00E3CEBA /* image-1-active.png */,
@@ -297,6 +303,8 @@
 				7BF3639016A8C37B0023C403 /* noise-dark-gray@2x.png in Resources */,
 				34E334B117CBA75C00E3CEBA /* image-1-active.png in Resources */,
 				34E334B217CBA75C00E3CEBA /* image-1-active@2x.png in Resources */,
+				34E334B517CBC1DD00E3CEBA /* noise-dark-green.png in Resources */,
+				34E334B617CBC1DD00E3CEBA /* noise-dark-green@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

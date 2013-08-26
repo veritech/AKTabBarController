@@ -82,6 +82,7 @@ static int kTopEdgeWidth   = 1;
 
 - (void)tabSelected:(AKTab *)sender
 {
+    [self setNeedsDisplay];
     [_delegate tabBar:self didSelectTabAtIndex:[_tabs indexOfObject:sender]];
 }
 
@@ -93,10 +94,11 @@ static int kTopEdgeWidth   = 1;
     // Drawing the tab bar background
 	CGContextRef ctx = UIGraphicsGetCurrentContext();
     
-    // fill ingthe background with a noise pattern
-    [[UIColor colorWithPatternImage:[UIImage imageNamed:_backgroundImageName ?: @"AKTabBarController.bundle/noise-pattern"]] set];
-    
-    CGContextFillRect(ctx, rect);
+    // Draw individual backgrounds
+    for (AKTab *tab in _tabs) {
+        CGRect tabRect = CGRectMake(tab.frame.origin.x, kTopEdgeWidth, tab.frame.size.width, rect.size.height);
+        [tab drawBackground:ctx inRect:tabRect];
+    }
     
     // Drawing the gradient
     CGContextSaveGState(ctx);
@@ -143,8 +145,10 @@ static int kTopEdgeWidth   = 1;
     
     // Drawing the edge border lines
     CGContextSetFillColorWithColor(ctx, _edgeColor ? [_edgeColor CGColor] : [[UIColor colorWithRed:.1f green:.1f blue:.1f alpha:.8f] CGColor]);
-    for (AKTab *tab in _tabs)
-        CGContextFillRect(ctx, CGRectMake(tab.frame.origin.x - kInterTabMargin, kTopEdgeWidth, kInterTabMargin, rect.size.height));
+    for (AKTab *tab in _tabs) {
+        CGRect tabRect = CGRectMake(tab.frame.origin.x - kInterTabMargin, kTopEdgeWidth, kInterTabMargin, rect.size.height);
+        CGContextFillRect(ctx, tabRect);
+    }
     
 }
 

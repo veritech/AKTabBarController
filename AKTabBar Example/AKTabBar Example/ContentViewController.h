@@ -6,6 +6,8 @@
 //  Copyright (c) 2012 Ali Karagoz. All rights reserved.
 //
 
+#import "UIViewController+AKTabBarController.h"
+
 @interface ContentViewController : UIViewController
 
 @end

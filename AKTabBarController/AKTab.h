@@ -96,4 +96,6 @@
 // Used to show / hide title.
 @property (nonatomic, assign) BOOL titleIsHidden;
 
+- (void)drawBackground:(CGContextRef)ctx
+                inRect:(CGRect)rect;
 @end

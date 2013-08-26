@@ -8,7 +8,6 @@
 
 #import "ContentViewController.h"
 
-#import "UIViewController+AKTabBarController.h"
 
 @implementation ContentViewController
 

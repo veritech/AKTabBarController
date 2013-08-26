@@ -106,7 +106,6 @@ typedef enum {
 {
     NSMutableArray *tabs = [[NSMutableArray alloc] init];
 
-    [[tabBarView tabBar] setBackgroundImageName:[self backgroundImageName]];
     [[tabBarView tabBar] setTabColors:[self tabCGColors]];
     [[tabBarView tabBar] setEdgeColor:[self tabEdgeColor]];
     [[tabBarView tabBar] setTopEdgeColor:[self topEdgeColor]];
@@ -115,7 +114,13 @@ typedef enum {
         AKTab *tab = [[AKTab alloc] init];
         [tab setTabImageWithName:[vc tabImageName]];
         [tab setActiveImageWithName:[vc activeTabImageName]];
-        [tab setBackgroundImageName:[self backgroundImageName]];
+        
+        if([vc tabBackgroundImageName]) {
+            [tab setBackgroundImageName:[vc tabBackgroundImageName]];
+        } else {
+            [tab setBackgroundImageName:[self backgroundImageName]];
+        }
+        
         [tab setSelectedBackgroundImageName:[self selectedBackgroundImageName]];
         [tab setBackgroundImageCapInsets:[self backgroundImageCapInsets]];
         [tab setTabIconColors:[self iconCGColors]];

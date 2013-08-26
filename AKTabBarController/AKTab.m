@@ -80,6 +80,39 @@ static const float kTopMargin = 2.0;
 
 #pragma mark - Drawing
 
+- (void)drawBackground:(CGContextRef)ctx
+                inRect:(CGRect)rect {
+    if (!self.selected) {
+        if (_backgroundImageName) {
+            UIImage *backgroundImage = [UIImage imageNamed:_backgroundImageName];
+            if(!UIEdgeInsetsEqualToEdgeInsets(self.backgroundImageCapInsets, UIEdgeInsetsZero)) {
+                [[backgroundImage resizableImageWithCapInsets:self.backgroundImageCapInsets] drawInRect:rect];
+            } else {
+                [[UIColor colorWithPatternImage:backgroundImage] set];
+                CGContextFillRect(ctx, rect);
+            }
+        }
+        else {
+            [[UIColor colorWithPatternImage:[UIImage imageNamed:@"AKTabBarController.bundle/noise-pattern"]] set];
+            CGContextFillRect(ctx, rect);
+        }
+    } else {
+        if (_selectedBackgroundImageName) {
+            UIImage *backgroundImage = [UIImage imageNamed:_selectedBackgroundImageName];
+            if(!UIEdgeInsetsEqualToEdgeInsets(self.backgroundImageCapInsets, UIEdgeInsetsZero)) {
+                [[backgroundImage resizableImageWithCapInsets:self.backgroundImageCapInsets] drawInRect:rect];
+            } else {
+                [[UIColor colorWithPatternImage:backgroundImage] set];
+                CGContextFillRect(ctx, rect);
+            }
+        }
+        else {
+            [[UIColor colorWithPatternImage:[UIImage imageNamed:@"AKTabBarController.bundle/noise-pattern"]] set];
+            CGContextFillRect(ctx, rect);
+        }
+    }
+}
+
 - (void)drawRect:(CGRect)rect
 {
     // If the height of the container is too short, we do not display the title
@@ -174,11 +207,11 @@ static const float kTopMargin = 2.0;
          */
 		/*
          if (CGRectGetWidth(imageRect) >= CGRectGetHeight(imageRect)) {
-             imageRect.size.width = MIN(CGRectGetHeight(imageRect), MIN(CGRectGetWidth(imageContainer), CGRectGetHeight(imageContainer)));
-             imageRect.size.height = floorf(CGRectGetWidth(imageRect) / ratio);
+         imageRect.size.width = MIN(CGRectGetHeight(imageRect), MIN(CGRectGetWidth(imageContainer), CGRectGetHeight(imageContainer)));
+         imageRect.size.height = floorf(CGRectGetWidth(imageRect) / ratio);
          } else {
-             imageRect.size.height = MIN(CGRectGetHeight(imageRect), MIN(CGRectGetWidth(imageContainer), CGRectGetHeight(imageContainer)));
-             imageRect.size.width = floorf(CGRectGetHeight(imageRect) * ratio);
+         imageRect.size.height = MIN(CGRectGetHeight(imageRect), MIN(CGRectGetWidth(imageContainer), CGRectGetHeight(imageContainer)));
+         imageRect.size.width = floorf(CGRectGetHeight(imageRect) * ratio);
          }
          */
         imageRect.origin.x = floorf(CGRectGetMidX(content) - CGRectGetWidth(imageRect) / 2);
@@ -280,13 +313,13 @@ static const float kTopMargin = 2.0;
             CGFloat locations[2] = {1.0, 0.0};
             CGFloat components[8] = {0.6, 0.6, 0.6, 1.0,  // Start color
                 0.2, 0.2, 0.2, 0.4}; // End color
-
+            
             UIColor *topEdgeColor = _topEdgeColor;
             if (!topEdgeColor) {
                 topEdgeColor = _edgeColor ?: [UIColor colorWithRed:.1f green:.1f blue:.1f alpha:.8f];
             }
             int topMargin = topEdgeColor == [UIColor clearColor] ? 0 : kTopMargin;
-
+            
             CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
             CGGradientRef gradient = _tabSelectedColors ? CGGradientCreateWithColors(colorSpace, (__bridge CFArrayRef)_tabSelectedColors, locations) : CGGradientCreateWithColorComponents (colorSpace, components, locations, num_locations);
             CGContextSetBlendMode(ctx, kCGBlendModeMultiply);
@@ -415,6 +448,6 @@ static const float kTopMargin = 2.0;
             CGContextRestoreGState(ctx);
         }
     }
-
+    
 }
 @end
