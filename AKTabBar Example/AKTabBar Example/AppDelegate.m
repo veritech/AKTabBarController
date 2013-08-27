@@ -104,6 +104,16 @@
     [_tabBarController setTopEdgeColor:[UIColor clearColor]];
      */
 
+    // Uncomment the following to display centered image in the center of the tabbar, similar to Instagram.
+    /*
+    UIImage *img = [UIImage imageNamed:@"sample-center-image"];
+    UIImageView *bottomCenterView = [[UIImageView alloc] initWithImage:img];
+    CGRect rect = _tabBarController.view.frame;
+    bottomCenterView.frame = CGRectMake(rect.size.width/2 - img.size.width/2, rect.size.height - img.size.height,
+                                        img.size.width, img.size.height);
+    [_tabBarController.view addSubview:bottomCenterView];
+     */
+
     [_window setRootViewController:_tabBarController];
     [_window makeKeyAndVisible];
     return YES;
