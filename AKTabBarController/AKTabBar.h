@@ -22,6 +22,13 @@
 
 #import "AKTab.h"
 
+// The various positions for the AKTabBar within the AKTabBarView.
+// The default position is AKTabBarPositionBottom.
+typedef NS_ENUM(NSInteger, AKTabBarPosition) {
+    AKTabBarPositionBottom = 0,
+    AKTabBarPositionTop,
+};
+
 @class AKTabBar;
 
 @protocol AKTabBarDelegate <NSObject>
@@ -36,7 +43,8 @@
 @interface AKTabBar : UIView
 
 - (id)initWithFrame:(CGRect)frame
-        fixedHeight:(BOOL)hasFixedHeight;
+        fixedHeight:(BOOL)hasFixedHeight
+           position:(AKTabBarPosition)position;
 
 @property (nonatomic, strong) NSArray *tabs;
 @property (nonatomic, strong) AKTab *selectedTab;

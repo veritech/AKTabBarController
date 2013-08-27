@@ -104,7 +104,8 @@ typedef enum {
     // Creating and adding the tab bar
     CGRect tabBarRect = CGRectMake(0.0, CGRectGetHeight(self.view.bounds) - tabBarHeight, CGRectGetWidth(self.view.frame), tabBarHeight);
     tabBar = [[AKTabBar alloc] initWithFrame:tabBarRect
-                                 fixedHeight:[self tabBarHasFixedHeight]];
+                                 fixedHeight:[self tabBarHasFixedHeight]
+                                    position:tabBarPosition];
     tabBar.delegate = self;
 	
     [tabBar setTabWidth:[self tabWidth]];

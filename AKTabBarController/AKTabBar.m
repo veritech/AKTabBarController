@@ -31,6 +31,7 @@ static int kTopEdgeWidth   = 1;
 
 - (id)initWithFrame:(CGRect)frame
         fixedHeight:(BOOL)hasFixedHeight
+           position:(AKTabBarPosition)position
 {
     self = [super initWithFrame:frame];
     if (self) {
@@ -38,14 +39,17 @@ static int kTopEdgeWidth   = 1;
         self.userInteractionEnabled = YES;
         self.contentMode = UIViewContentModeRedraw;
         self.opaque = YES;
-        if(hasFixedHeight) {
-            self.autoresizingMask = (UIViewAutoresizingFlexibleWidth |
-                                     UIViewAutoresizingFlexibleTopMargin);
-        } else {
-            self.autoresizingMask = (UIViewAutoresizingFlexibleWidth |
-                                     UIViewAutoresizingFlexibleHeight |
-                                     UIViewAutoresizingFlexibleTopMargin);
+        
+        int mask = UIViewAutoresizingFlexibleWidth;
+        if(!hasFixedHeight) {
+            mask |= UIViewAutoresizingFlexibleHeight;
         }
+        if(position == AKTabBarPositionBottom) {
+            mask |= UIViewAutoresizingFlexibleTopMargin;
+        } else {
+            mask |= UIViewAutoresizingFlexibleBottomMargin;
+        }
+        self.autoresizingMask = mask;
     }
     return self;
 }
