@@ -23,7 +23,8 @@
 #import "AKTabBar.h"
 
 @interface AKTabBarView : UIView
-
+///Offset the content & bar view from the top
+@property (nonatomic, assign) CGFloat statusBarOffset;
 @property (nonatomic, strong) AKTabBar *tabBar;
 @property (nonatomic, strong) UIView *contentView;
 @property (nonatomic, assign) BOOL isTabBarHidding;

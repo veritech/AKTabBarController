@@ -99,6 +99,7 @@ typedef enum {
     
     // Creating and adding the tab bar view
     tabBarView = [[AKTabBarView alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame]];
+    [tabBarView setStatusBarOffset:[self statusBarOffset]];
     self.view = tabBarView;
     
     // Creating and adding the tab bar
@@ -341,6 +342,15 @@ typedef enum {
 - (void)setSelectedIndex:(NSInteger)selectedIndex
 {
     [self setSelectedViewController:(self.viewControllers)[selectedIndex]];
+}
+
+- (void)setStatusBarOffset:(CGFloat)statusBarOffset
+{
+    _statusBarOffset = statusBarOffset;
+    if ([self isViewLoaded]) {
+        [(AKTabBarView *)[self view] setStatusBarOffset:statusBarOffset];
+        [[self view] setNeedsLayout];
+    }
 }
 
 #pragma mark - Hide / Show Methods

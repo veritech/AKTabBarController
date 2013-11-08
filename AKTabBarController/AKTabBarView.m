@@ -65,8 +65,8 @@
     [super layoutSubviews];
     _tabBar.frame = (CGRect) {
         .origin.x = _tabBar.frame.origin.x,
-        .origin.y = (self.tabBarPosition == AKTabBarPositionTop) ? 0.0
-                                                                 : CGRectGetHeight(self.bounds) - CGRectGetHeight(_tabBar.bounds),
+        .origin.y = (self.tabBarPosition == AKTabBarPositionTop) ? self.statusBarOffset
+                                                                 : (self.statusBarOffset + CGRectGetHeight(self.bounds)) - CGRectGetHeight(_tabBar.bounds),
         .size = _tabBar.frame.size
     };
 
@@ -74,7 +74,7 @@
         .origin.x = 0,
         .origin.y = (self.tabBarPosition == AKTabBarPositionTop) ? CGRectGetMaxY(_tabBar.frame) : 0,
         .size.width = CGRectGetWidth(self.bounds),
-        .size.height = CGRectGetHeight(self.bounds) - ((!_isTabBarHidding) ? CGRectGetHeight(_tabBar.bounds) : 0)
+        .size.height = CGRectGetHeight(self.bounds) - ((!_isTabBarHidding) ? CGRectGetHeight(_tabBar.bounds) + self.statusBarOffset : self.statusBarOffset)
     };
     [_contentView setNeedsLayout];
 }

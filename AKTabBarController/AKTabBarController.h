@@ -24,7 +24,9 @@
 #import "AKTabBar.h"
 #import "AKTab.h"
 
-@interface AKTabBarController : UIViewController <AKTabBarDelegate, UINavigationControllerDelegate>
+static const CGFloat AKTabBarControllerStatusBarOffsetForIOS7 = 20.0f;
+
+@interface AKTabBarController : UIViewController <AKTabBarDelegate, UINavigationControllerDelegate,UIBarPositioning>
 
 // View Controllers handled by the tab bar controller.
 @property (nonatomic, strong) NSMutableArray *viewControllers;
@@ -103,6 +105,9 @@
 
 // Whether the resizing is allowed (for example when the orientation changes)
 @property (nonatomic) BOOL tabBarHasFixedHeight;
+
+// The value to offset the view by
+@property (nonatomic,assign) CGFloat statusBarOffset;
 
 // Initialization with a specific height.
 - (id)initWithTabBarHeight:(NSUInteger)height;
