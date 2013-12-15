@@ -71,7 +71,7 @@
     };
 
     _contentView.frame = (CGRect) {
-        .origin.x = 0,
+        .origin.x = CGRectGetMinX([_contentView frame]),
         .origin.y = (self.tabBarPosition == AKTabBarPositionTop) ? CGRectGetMaxY(_tabBar.frame) : 0,
         .size.width = CGRectGetWidth(self.bounds),
         .size.height = CGRectGetHeight(self.bounds) - ((!_isTabBarHidding) ? CGRectGetHeight(_tabBar.bounds) + self.statusBarOffset : self.statusBarOffset)
