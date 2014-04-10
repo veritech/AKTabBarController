@@ -96,6 +96,8 @@
 // Used to show / hide title.
 @property (nonatomic, assign) BOOL titleIsHidden;
 
+@property (nonatomic, copy) NSString *badgeValue;
+
 - (void)drawBackground:(CGContextRef)ctx
                 inRect:(CGRect)rect;
 @end

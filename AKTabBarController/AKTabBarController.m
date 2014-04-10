@@ -407,6 +407,32 @@ typedef enum {
     [self.selectedViewController didRotateFromInterfaceOrientation:fromInterfaceOrientation];
 }
 
+- (NSUInteger)supportedInterfaceOrientations
+{
+    if ([[self selectedViewController] isKindOfClass:[UINavigationController class]]) {
+        return [[(UINavigationController *)[self selectedViewController] visibleViewController] supportedInterfaceOrientations];
+    }
+    return [[self selectedViewController] supportedInterfaceOrientations];
+}
+
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
+{
+    if ([[self selectedViewController] isKindOfClass:[UINavigationController class]]) {
+        return [[(UINavigationController *)[self selectedViewController] visibleViewController] preferredInterfaceOrientationForPresentation];
+    }
+    return [[self selectedViewController] preferredInterfaceOrientationForPresentation];
+}
+
+- (BOOL)shouldAutorotate
+{
+    
+    if ([[self selectedViewController] isKindOfClass:[UINavigationController class]]) {
+        return [[(UINavigationController *)[self selectedViewController] visibleViewController] shouldAutorotate];
+    }
+    
+    return [[self selectedViewController] shouldAutorotate];
+}
+
 #pragma mark - ViewController Life cycle
 
 - (void)viewWillAppear:(BOOL)animated

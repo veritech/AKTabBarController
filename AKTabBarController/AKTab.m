@@ -78,6 +78,12 @@ static const float kTopMargin = 2.0;
     [self setNeedsDisplay];
 }
 
+- (void)setBadgeValue:(NSString *)badgeValue
+{    
+    _badgeValue = badgeValue;
+    [self setNeedsDisplay];
+}
+
 #pragma mark - Drawing
 
 - (void)drawBackground:(CGContextRef)ctx
@@ -85,12 +91,13 @@ static const float kTopMargin = 2.0;
     if (!self.selected) {
         if (_backgroundImageName) {
             UIImage *backgroundImage = [UIImage imageNamed:_backgroundImageName];
-            if(!UIEdgeInsetsEqualToEdgeInsets(self.backgroundImageCapInsets, UIEdgeInsetsZero)) {
-                [[backgroundImage resizableImageWithCapInsets:self.backgroundImageCapInsets] drawInRect:rect];
-            } else {
-                [[UIColor colorWithPatternImage:backgroundImage] set];
-                CGContextFillRect(ctx, rect);
-            }
+            [backgroundImage drawInRect:rect];
+//            if(!UIEdgeInsetsEqualToEdgeInsets(self.backgroundImageCapInsets, UIEdgeInsetsZero)) {
+//                [[backgroundImage resizableImageWithCapInsets:self.backgroundImageCapInsets] drawInRect:rect];
+//            } else {
+//                [[UIColor colorWithPatternImage:backgroundImage] set];
+//                CGContextFillRect(ctx, rect);
+//            }
         }
         else {
             [[UIColor colorWithPatternImage:[UIImage imageNamed:@"AKTabBarController.bundle/noise-pattern"]] set];
@@ -99,12 +106,13 @@ static const float kTopMargin = 2.0;
     } else {
         if (_selectedBackgroundImageName) {
             UIImage *backgroundImage = [UIImage imageNamed:_selectedBackgroundImageName];
-            if(!UIEdgeInsetsEqualToEdgeInsets(self.backgroundImageCapInsets, UIEdgeInsetsZero)) {
-                [[backgroundImage resizableImageWithCapInsets:self.backgroundImageCapInsets] drawInRect:rect];
-            } else {
-                [[UIColor colorWithPatternImage:backgroundImage] set];
-                CGContextFillRect(ctx, rect);
-            }
+            [backgroundImage drawInRect:rect];
+//            if(!UIEdgeInsetsEqualToEdgeInsets(self.backgroundImageCapInsets, UIEdgeInsetsZero)) {
+//                [[backgroundImage resizableImageWithCapInsets:self.backgroundImageCapInsets] drawInRect:rect];
+//            } else {
+//                [[UIColor colorWithPatternImage:backgroundImage] set];
+//                CGContextFillRect(ctx, rect);
+//            }
         }
         else {
             [[UIColor colorWithPatternImage:[UIImage imageNamed:@"AKTabBarController.bundle/noise-pattern"]] set];
@@ -222,6 +230,7 @@ static const float kTopMargin = 2.0;
     
     if (!self.selected) {
         // We draw the vertical lines for the border
+        /*
         CGContextSaveGState(ctx);
         {
             CGContextSetBlendMode(ctx, kCGBlendModeOverlay);
@@ -235,6 +244,7 @@ static const float kTopMargin = 2.0;
         {
             if(self.tabIconPreRendered) {
                 // Simply draw the pre-rendered image.
+         */
                 CGContextSaveGState(ctx);
                 {
                     CGContextTranslateCTM(ctx, 0.0, offsetY);
@@ -242,6 +252,7 @@ static const float kTopMargin = 2.0;
                     CGContextDrawImage(ctx, imageRect, image.CGImage);
                 }
                 CGContextRestoreGState(ctx);
+        /*
             } else {
                 // We draw the inner shadow which is just the image mask with an offset of 1 pixel
                 CGContextSaveGState(ctx);
@@ -289,8 +300,9 @@ static const float kTopMargin = 2.0;
             }
             CGContextRestoreGState(ctx);
         }
+         */
     } else if (self.selected) {
-        
+        /*
         // We fill the background with a noise pattern
         CGContextSaveGState(ctx);
         {
@@ -319,7 +331,7 @@ static const float kTopMargin = 2.0;
                 topEdgeColor = _edgeColor ?: [UIColor colorWithRed:.1f green:.1f blue:.1f alpha:.8f];
             }
             int topMargin = topEdgeColor == [UIColor clearColor] ? 0 : kTopMargin;
-            
+        
             CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
             CGGradientRef gradient = _tabSelectedColors ? CGGradientCreateWithColors(colorSpace, (__bridge CFArrayRef)_tabSelectedColors, locations) : CGGradientCreateWithColorComponents (colorSpace, components, locations, num_locations);
             CGContextSetBlendMode(ctx, kCGBlendModeMultiply);
@@ -348,6 +360,7 @@ static const float kTopMargin = 2.0;
         if (isTabIconPresent)
         {
             if(self.tabIconPreRendered) {
+         */
                 // Simply draw the pre-rendered image.
                 CGContextSaveGState(ctx);
                 {
@@ -356,6 +369,9 @@ static const float kTopMargin = 2.0;
                     CGContextDrawImage(ctx, imageRect, image.CGImage);
                 }
                 CGContextRestoreGState(ctx);
+        
+        
+        /*
             } else {
                 // We draw the outer glow
                 CGContextSaveGState(ctx);
@@ -435,7 +451,7 @@ static const float kTopMargin = 2.0;
                 CGContextRestoreGState(ctx);
             }
         }
-        
+         */
         if (displayTabTitle) {
             CGContextSaveGState(ctx);
             {
@@ -447,7 +463,49 @@ static const float kTopMargin = 2.0;
             }
             CGContextRestoreGState(ctx);
         }
+        
+    }
+
+    if ([self badgeValue]) {
+        CGRect badgeFrame = CGRectZero;
+        UIBezierPath *path;
+        CGContextSaveGState(ctx);
+        {
+            
+            //Offset the frame
+            badgeFrame = CGRectOffset(imageRect, CGRectGetWidth(imageRect)*0.7f, CGRectGetHeight(imageRect)* -0.3f);
+            //Measure the text
+            badgeFrame.size = [[self badgeValue] sizeWithFont:tabTitleLabel.font];
+            
+            //Make it square if possible
+            if (CGRectGetWidth(badgeFrame) <= CGRectGetHeight(badgeFrame) && [[self badgeValue] length] == 1) {
+                badgeFrame.size.width = CGRectGetHeight(badgeFrame);
+            }
+            else {
+                //Increase the width by 40% when we have more than 1 character
+                badgeFrame.size.width *= 1.4f;
+            }
+            
+            [[UIColor redColor] setFill];
+            
+            path = [UIBezierPath bezierPathWithRoundedRect:badgeFrame
+                                              cornerRadius:CGRectGetHeight(badgeFrame)*0.5f];
+
+            [[UIColor redColor] setFill];
+            [path fill];
+            
+            [[UIColor whiteColor] setFill];
+            
+            [[self badgeValue] drawInRect:badgeFrame
+                                 withFont:tabTitleLabel.font
+                            lineBreakMode:NSLineBreakByTruncatingTail
+                                alignment:NSTextAlignmentCenter];
+            
+        }
+        CGContextRestoreGState(ctx);
+        
     }
     
 }
+
 @end

@@ -55,7 +55,6 @@ static int kTopEdgeWidth   = 1;
 }
 
 #pragma mark - Setters and Getters
-
 - (void)setTabs:(NSArray *)array
 {
     if (_tabs != array) {
@@ -105,6 +104,7 @@ static int kTopEdgeWidth   = 1;
     }
     
     // Drawing the gradient
+    /*
     CGContextSaveGState(ctx);
     {
         // We set the parameters of the gradient multiply blend
@@ -153,7 +153,7 @@ static int kTopEdgeWidth   = 1;
         CGRect tabRect = CGRectMake(tab.frame.origin.x - kInterTabMargin, kTopEdgeWidth, kInterTabMargin, rect.size.height);
         CGContextFillRect(ctx, tabRect);
     }
-    
+    */
 }
 
 - (void)layoutSubviews
